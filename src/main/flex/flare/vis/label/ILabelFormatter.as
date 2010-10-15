@@ -15,33 +15,25 @@
  */
 
 
-package org.juicekit.flare.label {
+package flare.vis.label {
+
 import flare.vis.data.DataSprite;
 
 /**
- * Implements the ILabelFormatter interface to apply one format to
- * all label instances in a LabelLayout.
- *
- * @author Jon Buffington
+ * Inteface for LabelFormatters used by a LabelLayout. This interface
+ * describes the callback protocol used to apply style attributes to labels.
  */
-public class LabelFormatter implements ILabelFormatter {
-  private var fmt:LabelFormat;
+public interface ILabelFormatter {
 
   /**
-   * Constructor.
+   * Returns a LabelFormat for a given data property object.
    *
-   * @param labelFormat Specifies the format for all label instances of
-   * a LabelLayout.
+   * @param data Reference to a DataSprite instance.
+   *
+   * @result A LabelFormat instance describing the rendering style
+   *  attributes of the text label or null if a label should not be
+   *  displayed.
    */
-  public function LabelFormatter(labelFormat:LabelFormat) {
-    this.fmt = labelFormat;
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function labelFormat(dataSprite:DataSprite):LabelFormat {
-    return fmt;
-  }
+  function labelFormat(dataSprite:DataSprite):LabelFormat;
 }
 }

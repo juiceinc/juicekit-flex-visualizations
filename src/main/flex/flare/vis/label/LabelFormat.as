@@ -15,7 +15,7 @@
  */
 
 
-package org.juicekit.flare.label {
+package flare.vis.label {
 import flare.display.TextSprite;
 
 import flash.text.TextFormat;
