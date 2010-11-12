@@ -129,12 +129,18 @@
             <type>swc</type>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.juicekit.ui</groupId>
-            <artifactId>juicekit-flex-encode</artifactId>
-            <version>1.0</version>
-            <type>swc</type>
-        </dependency>
+      <dependency>
+          <groupId>com.juicekit.ui</groupId>
+          <artifactId>juicekit-flex-core</artifactId>
+          <version>1.0</version>
+          <type>swc</type>
+      </dependency>
+      <dependency>
+          <groupId>com.juicekit.ui</groupId>
+          <artifactId>juicekit-flex-data</artifactId>
+          <version>1.0</version>
+          <type>swc</type>
+      </dependency>
     </dependencies>
 
 </project>
