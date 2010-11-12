@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="juicekit-flex-visualizations.as" version="6">
+<actionScriptProperties analytics="false" mainApplicationPath="juicekit-flex-visualizations.as" projectUUID="b2dd290f-a11a-4f86-a447-61d8e17b814d" version="6">
   <compiler autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin" sourceFolderPath="src/main/flex" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath>
       <compilerSourcePathEntry kind="1" linkType="1" path="src/main/flex"/>
@@ -12,7 +12,6 @@
       </libraryPathEntry>
       <libraryPathEntry kind="3" linkType="1" path="/juicekit-flex-core/bin/juicekit-flex-core.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/juicekit-flex-data/bin/juicekit-flex-data.swc" useDefaultLinkType="false"/>
-      <libraryPathEntry kind="3" linkType="1" path="/juicekit-flex-encode/bin/juicekit-flex-encode.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -20,5 +19,3 @@
   <modules/>
   <buildCSSFiles/>
 </actionScriptProperties>
-
-
