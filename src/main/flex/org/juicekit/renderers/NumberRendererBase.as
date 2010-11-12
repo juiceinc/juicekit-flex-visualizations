@@ -34,7 +34,8 @@ public class NumberRendererBase extends RendererBase {
   /**
    * Constructor.
    */
-  public function NumberRendererBase() {
+  public function NumberRendererBase()
+  {
     super();
   }
 
@@ -42,7 +43,8 @@ public class NumberRendererBase extends RendererBase {
   /**
    * @return Returns the renderer's data value as a Number or NaN.
    */
-  protected function get numberValue():Number {
+  protected function get numberValue():Number
+  {
     var numberValue:Number;
     // The following Number type conversions were chosen over the 'as'
     // operator to allow NaN to propogate.

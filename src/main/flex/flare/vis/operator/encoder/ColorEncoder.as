@@ -36,8 +36,8 @@ import flare.scale.ScaleType;
 import flare.vis.data.Data;
 
 import org.juicekit.animate.Transitioner;
-import org.juicekit.palette.ColorPalette;
-import org.juicekit.palette.Palette;
+import org.juicekit.util.palette.ColorPalette;
+import org.juicekit.util.palette.Palette;
 
 /**
  * Encodes a data field into color values, using a scale transform and

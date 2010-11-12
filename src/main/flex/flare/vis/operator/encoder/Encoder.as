@@ -41,7 +41,7 @@ import flare.vis.operator.Operator;
 import mx.events.CollectionEvent;
 
 import org.juicekit.animate.Transitioner;
-import org.juicekit.palette.Palette;
+import org.juicekit.util.palette.Palette;
 import org.juicekit.util.Filter;
 import org.juicekit.util.Property;
 

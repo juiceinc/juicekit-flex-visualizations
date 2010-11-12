@@ -35,8 +35,8 @@ package flare.vis.operator.encoder
 import flare.scale.ScaleType;
 import flare.vis.data.Data;
 
-import org.juicekit.palette.Palette;
-import org.juicekit.palette.SizePalette;
+import org.juicekit.util.palette.Palette;
+import org.juicekit.util.palette.SizePalette;
 
 /**
  * Encodes a data field into size values, using a scale transform and a

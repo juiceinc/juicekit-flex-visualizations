@@ -71,7 +71,7 @@ import org.juicekit.util.helper.CSSUtil;
  *
  * @eventType flare.animate.TransitionEvent
  */
-[Event(name="start", type="flare.animate.TransitionEvent")]
+[Event(name="start", type="org.juicekit.animate.TransitionEvent")]
 
 /**
  * Dispatched when an animating <code>Visualization</code>
@@ -79,7 +79,7 @@ import org.juicekit.util.helper.CSSUtil;
  *
  * @eventType flare.animate.TransitionEvent
  */
-[Event(name="end", type="flare.animate.TransitionEvent")]
+[Event(name="end", type="org.juicekit.animate.TransitionEvent")]
 
 
 /**
@@ -106,8 +106,9 @@ public class FlareControlBase extends RendererBase {
   // Invoke the class constructor to initialize the CSS defaults.
   classConstructor();
 
-  private static function classConstructor():void {
-	CSSUtil.setDefaultsFor("org.juicekit.visual.controls.FlareControlBase",
+  private static function classConstructor():void
+  {
+    CSSUtil.setDefaultsFor("org.juicekit.visual.controls.FlareControlBase",
     { paddingLeft: 0
       , paddingRight: 0
       , paddingTop: 0
@@ -122,7 +123,8 @@ public class FlareControlBase extends RendererBase {
   /**
    * Constructor.
    */
-  public function FlareControlBase() {
+  public function FlareControlBase()
+  {
     super();
     addEventListener(ResizeEvent.RESIZE, onResize);
   }
@@ -137,7 +139,8 @@ public class FlareControlBase extends RendererBase {
   /**
    * @private
    */
-  override protected function createChildren():void {
+  override protected function createChildren():void
+  {
     super.createChildren();
 
     if (!vis) {
@@ -155,7 +158,8 @@ public class FlareControlBase extends RendererBase {
    *
    * @return Returns a prefuse.flare <code>Visualization</code> instance.
    */
-  protected function makeVisualization():Visualization {
+  protected function makeVisualization():Visualization
+  {
     // Create the Visualization instance.
     return new Visualization();
   }
@@ -167,7 +171,8 @@ public class FlareControlBase extends RendererBase {
    * override this function to add operators to the
    * <code>vis</code> object.
    */
-  protected function initVisualization():void {
+  protected function initVisualization():void
+  {
     addEventListeners();
   }
 
@@ -175,7 +180,8 @@ public class FlareControlBase extends RendererBase {
   /**
    * Add any event listeners to the <code>Visualization</code> instance.
    */
-  protected function addEventListeners():void {
+  protected function addEventListeners():void
+  {
     // Hook mouse events.
     vis.addEventListener(MouseEvent.CLICK, signalDataMouseEvent);
     vis.addEventListener(MouseEvent.DOUBLE_CLICK, signalDataMouseEvent);
@@ -187,7 +193,8 @@ public class FlareControlBase extends RendererBase {
   /**
    * Remove any event listeners from the <code>Visualization</code> instance.
    */
-  protected function removeEventListeners():void {
+  protected function removeEventListeners():void
+  {
     // Hook mouse events.
     vis.removeEventListener(MouseEvent.CLICK, signalDataMouseEvent);
     vis.removeEventListener(MouseEvent.DOUBLE_CLICK, signalDataMouseEvent);
@@ -199,7 +206,8 @@ public class FlareControlBase extends RendererBase {
   /**
    * Handle mouse out events.
    */
-  protected function onMouseOut(event:MouseEvent):void {
+  protected function onMouseOut(event:MouseEvent):void
+  {
     const ds:DataSprite = event.target as DataSprite;
     if (!ds) {
       return;
@@ -212,7 +220,8 @@ public class FlareControlBase extends RendererBase {
   /**
    * Handle mouse over events.
    */
-  protected function onMouseOver(event:MouseEvent):void {
+  protected function onMouseOver(event:MouseEvent):void
+  {
     const ds:DataSprite = event.target as DataSprite;
     if (!ds) {
       return;
@@ -225,9 +234,11 @@ public class FlareControlBase extends RendererBase {
   /**
    * Dispatch <code>DataMouseEvent</code> events.
    */
-  protected function signalDataMouseEvent(event:MouseEvent):void {
+  protected function signalDataMouseEvent(event:MouseEvent):void
+  {
     if (event.target is DataSprite) {
-      callLater(function():void {
+      callLater(function():void
+      {
         dispatchEvent(new DataMouseEvent(event, DataSprite(event.target).data, DataSprite(event.target)));
       });
     }
@@ -243,7 +254,8 @@ public class FlareControlBase extends RendererBase {
    *
    * @return Returns high-order byte encoding of the alpha value.
    */
-  protected static function numToAlphaBits(alpha:Number):uint {
+  protected static function numToAlphaBits(alpha:Number):uint
+  {
     return Math.round(alpha * 255) << 24;
   }
 
@@ -260,7 +272,8 @@ public class FlareControlBase extends RendererBase {
    *
    * @return Returns a flare compatible ARGB color <code>uint</code>.
    */
-  protected static function toARGB(rgbColor:uint, alpha:Number):uint {
+  protected static function toARGB(rgbColor:uint, alpha:Number):uint
+  {
     const alphaBits:uint = numToAlphaBits(alpha);
     return rgbColor | alphaBits;
   }
@@ -269,7 +282,8 @@ public class FlareControlBase extends RendererBase {
   /**
    * Return a flare-style data property string.
    */
-  protected function asFlareProperty(propertyName:String):String {
+  protected function asFlareProperty(propertyName:String):String
+  {
     return "data." + propertyName;
   }
 
@@ -287,14 +301,16 @@ public class FlareControlBase extends RendererBase {
    */
   [Inspectable(category="General")]
   [Bindable]
-  public function set transitionPeriod(seconds:Number):void {
+  public function set transitionPeriod(seconds:Number):void
+  {
     _transitionPeriod = seconds;
   }
 
   /**
    * @private
    */
-  public function get transitionPeriod():Number {
+  public function get transitionPeriod():Number
+  {
     return _transitionPeriod;
   }
 
@@ -303,7 +319,8 @@ public class FlareControlBase extends RendererBase {
    * Signal a TransitionEvent.START event on the transient Transitioner
    * to the listener(s).
    */
-  private function onStartTransition(event:TransitionEvent):void {
+  private function onStartTransition(event:TransitionEvent):void
+  {
     dispatchEvent(new TransitionEvent(TransitionEvent.START, event.transition));
     event.transition.removeEventListener(TransitionEvent.START, onStartTransition);
   }
@@ -312,7 +329,8 @@ public class FlareControlBase extends RendererBase {
    * Signal a TransitionEvent.END event on the transient Transitioner
    * to the listener(s).
    */
-  private function onEndTransition(event:TransitionEvent):void {
+  private function onEndTransition(event:TransitionEvent):void
+  {
     dispatchEvent(new TransitionEvent(TransitionEvent.END, event.transition));
     event.transition.removeEventListener(TransitionEvent.END, onEndTransition);
   }
@@ -324,7 +342,8 @@ public class FlareControlBase extends RendererBase {
    * this method will signal <code>TransitionEvent.START</code>
    * and <code>TransitionEvent.END</code> to any listeners.
    */
-  protected function updateVisualization():void {
+  protected function updateVisualization():void
+  {
     if (vis && vis.data !== null && vis.data.length > 0) {
       if (isNaN(transitionPeriod)) {
         vis.update();
@@ -349,7 +368,8 @@ public class FlareControlBase extends RendererBase {
   /**
    * @private
    */
-  override protected function measure():void {
+  override protected function measure():void
+  {
     var defaultWidth:Number = 0;
     var defaultHeight:Number = 0;
 
@@ -370,7 +390,8 @@ public class FlareControlBase extends RendererBase {
   /**
    * Translate control resizing into Visualization bounds updates.
    */
-  private function onResize(event:ResizeEvent):void {
+  private function onResize(event:ResizeEvent):void
+  {
     if (vis) {
       const r:Rectangle = calcPaddedBounds(width, height);
       vis.x = r.x;
@@ -389,7 +410,8 @@ public class FlareControlBase extends RendererBase {
    *
    * @return Returns a rectangle inset by the padding styles.
    */
-  protected function calcPaddedBounds(w:Number, h:Number):Rectangle {
+  protected function calcPaddedBounds(w:Number, h:Number):Rectangle
+  {
     const paddingLeft:Number = getStyle("paddingLeft");
     const paddingTop:Number = getStyle("paddingTop");
     const r:Rectangle = new Rectangle();
@@ -407,7 +429,8 @@ public class FlareControlBase extends RendererBase {
   /**
    * @private
    */
-  override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
+  override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+  {
     if (unscaledWidth === 0 && unscaledHeight === 0) {
       return;
     }
@@ -417,7 +440,7 @@ public class FlareControlBase extends RendererBase {
     g.clear();
 
     const backgroundColor:* = getStyle("backgroundColor");
-	const hasBgColor:Boolean = StyleManager.getStyleManager(moduleFactory).isValidStyleValue(backgroundColor);
+    const hasBgColor:Boolean = StyleManager.getStyleManager(moduleFactory).isValidStyleValue(backgroundColor);
 
     // Draw a background?
     if (hasBgColor) {

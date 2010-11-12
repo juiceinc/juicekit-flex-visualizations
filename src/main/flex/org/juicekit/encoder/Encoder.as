@@ -37,12 +37,11 @@ package org.juicekit.encoder
   import mx.events.CollectionEvent;
   
   import org.juicekit.animate.Transitioner;
-  import org.juicekit.palette.IPalette;
-  import org.juicekit.palette.Palette;
   import org.juicekit.scale.LinearScale;
   import org.juicekit.scale.Scale;
   import org.juicekit.util.Filter;
   import org.juicekit.util.Property;
+  import org.juicekit.util.palette.Palette;
   
   /**
    * Dispatched when the encoder has changed

@@ -32,9 +32,8 @@
 
 package org.juicekit.encoder
 {
-  import org.juicekit.palette.IPalette;
-  import org.juicekit.palette.SizePalette;
   import org.juicekit.scale.Scale;
+  import org.juicekit.util.palette.SizePalette;
   
   /**
    * Encodes a data field into size values, using a scale transform and a

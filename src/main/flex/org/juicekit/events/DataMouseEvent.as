@@ -61,7 +61,8 @@ public class DataMouseEvent extends MouseEvent {
   public static const MOUSE_OVER:String = "jkDataMouseOver";
 
 
-  private function mapEvents(mouseEventType:String):String {
+  private function mapEvents(mouseEventType:String):String
+  {
     var retVal:String;
     switch (mouseEventType) {
       case MouseEvent.CLICK:
@@ -92,7 +93,8 @@ public class DataMouseEvent extends MouseEvent {
    * @param data Contains a reference to the related data
    * <code>Object</code>.
    */
-  public function DataMouseEvent(event:MouseEvent, data:Object = null, dataSprite:DataSprite = null) {
+  public function DataMouseEvent(event:MouseEvent, data:Object = null, dataSprite:DataSprite = null)
+  {
     super(mapEvents(event.type)
             , event.bubbles
             , event.cancelable
@@ -134,7 +136,8 @@ public class DataMouseEvent extends MouseEvent {
   /**
    * @private
    */
-  override public function clone():Event {
+  override public function clone():Event
+  {
     return new DataMouseEvent(this, data, dataSprite);
   }
 }

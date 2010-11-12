@@ -33,9 +33,8 @@
 package org.juicekit.encoder
 {  
   import org.juicekit.animate.Transitioner;
-  import org.juicekit.palette.ColorPalette;
-  import org.juicekit.palette.IPalette;
   import org.juicekit.scale.Scale;
+  import org.juicekit.util.palette.ColorPalette;
   
   /**
    * Encodes a data field into color values, using a scale transform and

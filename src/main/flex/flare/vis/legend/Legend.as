@@ -14,10 +14,10 @@ package flare.vis.legend
   import mx.core.UIComponent;
   
   import org.juicekit.animate.Transitioner;
-  import org.juicekit.palette.ColorPalette;
-  import org.juicekit.palette.Palette;
-  import org.juicekit.palette.ShapePalette;
-  import org.juicekit.palette.SizePalette;
+  import org.juicekit.util.palette.ColorPalette;
+  import org.juicekit.util.palette.Palette;
+  import org.juicekit.util.palette.ShapePalette;
+  import org.juicekit.util.palette.SizePalette;
   import org.juicekit.util.Displays;
   import org.juicekit.util.Orientation;
   

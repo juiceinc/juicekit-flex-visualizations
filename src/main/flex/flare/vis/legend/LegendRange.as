@@ -45,7 +45,7 @@ import flash.geom.Matrix;
 import flash.geom.Rectangle;
 import flash.text.TextFormat;
 
-import org.juicekit.palette.ColorPalette;
+import org.juicekit.util.palette.ColorPalette;
 import org.juicekit.util.Colors;
 import org.juicekit.util.Orientation;
 import org.juicekit.util.Stats;

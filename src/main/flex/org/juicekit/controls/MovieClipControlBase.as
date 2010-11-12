@@ -92,8 +92,9 @@ public class MovieClipControlBase extends RendererBase {
   // Invoke the class constructor to initialize the CSS defaults.
   classConstructor();
 
-  private static function classConstructor():void {
-	CSSUtil.setDefaultsFor("org.juicekit.visual.controls.MovieClipControlBase",
+  private static function classConstructor():void
+  {
+    CSSUtil.setDefaultsFor("org.juicekit.visual.controls.MovieClipControlBase",
     { paddingLeft: 0
       , paddingRight: 0
       , paddingTop: 0
@@ -112,7 +113,8 @@ public class MovieClipControlBase extends RendererBase {
   /**
    * Constructor.
    */
-  public function MovieClipControlBase() {
+  public function MovieClipControlBase()
+  {
     super();
 
     // Handle runtime resizing.
@@ -126,7 +128,8 @@ public class MovieClipControlBase extends RendererBase {
    * <p>Note: This method is required to be
    * overridden in the derived class.</p>
    */
-  protected function createMovieClip():MovieClip {
+  protected function createMovieClip():MovieClip
+  {
     return null;
   }
 
@@ -134,7 +137,8 @@ public class MovieClipControlBase extends RendererBase {
   /**
    * @private
    */
-  override protected function createChildren():void {
+  override protected function createChildren():void
+  {
     super.createChildren();
 
     if (!_clip) {
@@ -152,7 +156,8 @@ public class MovieClipControlBase extends RendererBase {
   /**
    * Dispatch a mouse event and its related data.
    */
-  protected function signalDataMouseEvent(event:MouseEvent):void {
+  protected function signalDataMouseEvent(event:MouseEvent):void
+  {
     const simpleButton:SimpleButton = event.target as SimpleButton;
     if (simpleButton) {
       // Make the local mouse coordinates local to this control.
@@ -170,7 +175,8 @@ public class MovieClipControlBase extends RendererBase {
    * Return the data object associated with the target
    * <code>DisplayObject</code>.
    */
-  protected function getButtonData(simpleButton:SimpleButton):Object {
+  protected function getButtonData(simpleButton:SimpleButton):Object
+  {
     var retVal:Object = null;
 
     if (data !== null) {
@@ -196,7 +202,8 @@ public class MovieClipControlBase extends RendererBase {
   /**
    * @private
    */
-  override protected function measure():void {
+  override protected function measure():void
+  {
     var defaultWidth:Number = 0;
     var defaultHeight:Number = 0;
 
@@ -217,7 +224,8 @@ public class MovieClipControlBase extends RendererBase {
   /**
    * Translate control resizing into <code>MovieClip</code> bounds updates.
    */
-  private function onResize(event:ResizeEvent):void {
+  private function onResize(event:ResizeEvent):void
+  {
     if (_clip) {
       const r:Rectangle = calcPaddedBounds(width, height);
       _clip.x = r.x;
@@ -237,7 +245,8 @@ public class MovieClipControlBase extends RendererBase {
    *
    * @return Returns a rectangle inset by the padding styles.
    */
-  protected function calcPaddedBounds(w:Number, h:Number):Rectangle {
+  protected function calcPaddedBounds(w:Number, h:Number):Rectangle
+  {
     const paddingLeft:Number = getStyle("paddingLeft");
     const paddingTop:Number = getStyle("paddingTop");
     const r:Rectangle = new Rectangle();
@@ -252,7 +261,8 @@ public class MovieClipControlBase extends RendererBase {
   /**
    * @private
    */
-  override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
+  override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+  {
     if (unscaledWidth === 0 && unscaledHeight === 0) {
       return;
     }
@@ -262,7 +272,7 @@ public class MovieClipControlBase extends RendererBase {
     g.clear();
 
     const backgroundColor:* = getStyle("backgroundColor");
-	const hasBgColor:Boolean = StyleManager.getStyleManager(moduleFactory).isValidStyleValue(backgroundColor);
+    const hasBgColor:Boolean = StyleManager.getStyleManager(moduleFactory).isValidStyleValue(backgroundColor);
 
     // Draw a background?
     if (hasBgColor) {
@@ -290,7 +300,8 @@ public class MovieClipControlBase extends RendererBase {
    *
    * Reset any color transformations on each SimpleButton instance.
    */
-  private function clearMap():void {
+  private function clearMap():void
+  {
     var sb:SimpleButton;
     const doc:DisplayObjectContainer = clipDisplayObjectContainer();
     const n:int = doc.numChildren;
@@ -307,7 +318,8 @@ public class MovieClipControlBase extends RendererBase {
    * Encode map colors by applying the colorEncodingFunction
    * to the array of data objects.
    */
-  public function encodeMap(table:Array):void {
+  public function encodeMap(table:Array):void
+  {
     var sb:SimpleButton;
     var rowObject:Object;
     var colorTransform:ColorTransform;
@@ -340,7 +352,8 @@ public class MovieClipControlBase extends RendererBase {
    * Return the MovieClip's <code>DisplayObjectContainer</code> containing
    * the <code>SimpleButton</code>s to encode.
    */
-  protected function clipDisplayObjectContainer():DisplayObjectContainer {
+  protected function clipDisplayObjectContainer():DisplayObjectContainer
+  {
     return _clip;
   }
 
@@ -351,17 +364,23 @@ public class MovieClipControlBase extends RendererBase {
    * whose properties will be used to change the appearance of the the
    * <code>MovieClip</code>'s <code>SimpleButton</code> children.
    */
-  override public function set data(value:Object):void {
-    function verify(o:Object):Object {
+  override public function set data(value:Object):void
+  {
+    function verify(o:Object):Object
+    {
       if (o is Array) {
         return o;
       }
-      else if (o is ArrayCollection) {
-        return ArrayCollection(o).source;
-      }
       else {
-        trace("Warning: MovieClipControlBase.data must be an Array or ArrayCollection.")
-        return null;
+        if (o is
+                ArrayCollection
+                ) {
+          return ArrayCollection(o).source;
+        }
+        else {
+          trace("Warning: MovieClipControlBase.data must be an Array or ArrayCollection.")
+          return null;
+        }
       }
     }
 
@@ -375,7 +394,8 @@ public class MovieClipControlBase extends RendererBase {
   /**
    * @private
    */
-  override public function get data():Object {
+  override public function get data():Object
+  {
     return super.data;
   }
 
@@ -400,7 +420,8 @@ public class MovieClipControlBase extends RendererBase {
    */
   [Inspectable(category="General")]
   [Bindable]
-  public function set colorEncodingFunction(value:Function):void {
+  public function set colorEncodingFunction(value:Function):void
+  {
     _colorEncodingFunction = value;
     invalidateDisplayList();
   }
@@ -408,7 +429,8 @@ public class MovieClipControlBase extends RendererBase {
   /**
    * @private
    */
-  public function get colorEncodingFunction():Function {
+  public function get colorEncodingFunction():Function
+  {
     return _colorEncodingFunction;
   }
 
@@ -427,7 +449,8 @@ public class MovieClipControlBase extends RendererBase {
    */
   [Inspectable(category="General")]
   [Bindable]
-  public function set dataKeyField(value:String):void {
+  public function set dataKeyField(value:String):void
+  {
     if (value !== _dataKeyField) {
       _dataKeyField = value;
       invalidateDisplayList();
@@ -437,7 +460,8 @@ public class MovieClipControlBase extends RendererBase {
   /**
    * @private
    */
-  public function get dataKeyField():String {
+  public function get dataKeyField():String
+  {
     return _dataKeyField;
   }
 }

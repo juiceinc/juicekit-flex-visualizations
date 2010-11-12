@@ -35,8 +35,8 @@ package flare.vis.operator.encoder
 import flare.scale.ScaleType;
 import flare.vis.data.Data;
 
-import org.juicekit.palette.Palette;
-import org.juicekit.palette.ShapePalette;
+import org.juicekit.util.palette.Palette;
+import org.juicekit.util.palette.ShapePalette;
 
 /**
  * Encodes a data field into shape values, using an ordinal scale.

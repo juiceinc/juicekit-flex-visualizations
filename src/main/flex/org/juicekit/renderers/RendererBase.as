@@ -72,7 +72,8 @@ implements IDataRenderer,
   /**
    * Constructor.
    */
-  public function RendererBase() {
+  public function RendererBase()
+  {
     super();
   }
 
@@ -82,11 +83,13 @@ implements IDataRenderer,
   /**
    * Implement the IDropInListItemRenderer interface.
    */
-  public function get listData():BaseListData {
+  public function get listData():BaseListData
+  {
     return _listData;
   }
 
-  public function set listData(value:BaseListData):void {
+  public function set listData(value:BaseListData):void
+  {
     _listData = value;
   }
 
@@ -103,7 +106,8 @@ implements IDataRenderer,
    * Reset the <code>dataPropertyChanged</code> and invalidate
    * the display list.
    */
-  override protected function commitProperties():void {
+  override protected function commitProperties():void
+  {
     if (dataPropertyChanged) {
       dataPropertyChanged = false;
       invalidateDisplayList();
@@ -122,14 +126,16 @@ implements IDataRenderer,
    */
   [Bindable("dataChange")]
   [Inspectable(category="Common")]
-  public function get data():Object {
+  public function get data():Object
+  {
     return _dataValue;
   }
 
   /**
    * @private
    */
-  public function set data(value:Object):void {
+  public function set data(value:Object):void
+  {
     if (value !== _dataValue) {
       _dataValue = value;
       dataPropertyChanged = true;
