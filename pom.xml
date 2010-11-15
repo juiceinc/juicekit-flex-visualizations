@@ -159,9 +159,9 @@
 
 
       <scm>
-        <connection>scm:git:git://github.com/juiceinc/juicekit-flex-visualiations.git</connection>
-        <developerConnection>scm:git:git@github.com:juiceinc/juicekit-flex-visualiations.git</developerConnection>
-        <url>http://github.com/juiceinc/juicekit-flex-visualiations/tree/master</url>
+        <connection>scm:git:git://github.com/juiceinc/juicekit-flex-visualizations.git</connection>
+        <developerConnection>scm:git:git@github.com:juiceinc/juicekit-flex-visualizations.git</developerConnection>
+        <url>https://github.com/juiceinc/juicekit-flex-visualizations/tree/master</url>
       </scm>
 
       <distributionManagement>
