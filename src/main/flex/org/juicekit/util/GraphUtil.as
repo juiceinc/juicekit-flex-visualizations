@@ -428,9 +428,10 @@ public class GraphUtil {
    * if strings, the value will be summed across child nodes
    * @param rowFilter an optional filter function that takes a row and returns boolean
    * @param matchTree an optional tree to use as the base for matching
+   * @param toClass a class to cast all tree data items to
    * @returns a Flare Tree structure suitable for assigning to TreeMapControl.data
    */
-  public static function treeMap(dataArray:Array, levels:Array, metrics:Array, rowFilter:Function = null, matchTree:Tree = null):Tree
+  public static function treeMap(dataArray:Array, levels:Array, metrics:Array, rowFilter:Function = null, matchTree:Tree = null, toClass:Class=null):Tree
   {
     var c:NodeSprite;
     var i:int;
@@ -474,8 +475,8 @@ public class GraphUtil {
 
     // Calculate data for the root node
     // Grouping by the Literal 1 groups everything
-    var rootquery:Query = new Query(metrics, rowFilter, null, ["'1'"]);
-    var result:Object = rootquery.eval(dataArray);
+    var rootquery:Query = new Query(metrics, rowFilter, null, [_('1')]);
+    var result:Object = rootquery.eval(dataArray, toClass);
     if (result && result.length > 0) {
       rootNode.data = result[0];
       rootNode.data['name'] = 'All';
@@ -493,7 +494,7 @@ public class GraphUtil {
         query = query.where(rowFilter)
       }
 
-      var resultArray:Array = query.eval(dataArray);
+      var resultArray:Array = query.eval(dataArray, toClass);
 
       for each (o in resultArray) {
         generateTreeMapBranch(tree, rootNode, levels.slice(0, i + 1), o);
