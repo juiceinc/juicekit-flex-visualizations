@@ -368,6 +368,7 @@ public class DataSprite extends DirtySprite
   public function DataSprite() {
     super();
     _prop.self = this;
+	doubleClickEnabled = true;
   }
 
   /** @inheritDoc */
