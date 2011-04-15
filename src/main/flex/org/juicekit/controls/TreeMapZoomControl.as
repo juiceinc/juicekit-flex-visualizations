@@ -48,7 +48,7 @@ import org.juicekit.util.Property;
  *
  * @see org.juicekit.visual.controls.TreeMapControl
  *
- * @author Shalini Kataria
+ * @author Chris Gemignani
  */
 public class TreeMapZoomControl extends HBox {
   /**
