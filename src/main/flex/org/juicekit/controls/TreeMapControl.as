@@ -22,6 +22,7 @@ import flare.vis.data.DataList;
 import flare.vis.data.DataSprite;
 import flare.vis.data.NodeSprite;
 import flare.vis.data.Tree;
+import flare.vis.label.Labels;
 import flare.vis.operator.Operator;
 import flare.vis.operator.encoder.ColorEncoder;
 import flare.vis.operator.encoder.Encoder;
@@ -36,11 +37,8 @@ import flash.utils.Dictionary;
 import mx.collections.ArrayCollection;
 
 import org.juicekit.events.JuiceKitEvent;
-
-import flare.vis.label.Labels;
-
-import org.juicekit.util.palette.ColorPalette;
 import org.juicekit.util.helper.CSSUtil;
+import org.juicekit.util.palette.ColorPalette;
 
 include "../../../../shared/styles/metadata/TextStyles.as";
 
@@ -1295,7 +1293,9 @@ public class TreeMapControl extends FlareControlBase {
    * mouse cursor position on an treemap instance.
    */
   private static const brightnessMatrix:Array = [1, 0, 0, 0, 30, 0, 1, 0, 0, 30, 0, 0, 1, 0, 30, 0, 0, 0, 1, 0];
-  private static const brightnessFilter:ColorMatrixFilter = new ColorMatrixFilter(brightnessMatrix);
+
+  public var highlightFilter:* = new ColorMatrixFilter(brightnessMatrix);
+  
 
   /*
    * Internal property name used to preserve node filters prior
@@ -1305,26 +1305,83 @@ public class TreeMapControl extends FlareControlBase {
 
 
   /**
+  * Apply the <code>highlightFilter</code> to a node.
+  */
+  public function highlightAdd(ns:NodeSprite):void 
+  {
+	  if (ns)
+	  {
+		  if (ns.filters && ns.filters.length > 0) {
+			  ns.props[FILTERS_PROP] = ns.filters;
+			  ns.filters.push(highlightFilter);
+			  ns.filters = ns.filters;
+		  } else {
+			  ns.filters = [highlightFilter];
+		  }
+	  }
+  }
+  
+  /**
+  * Remove all highlighting effects from nodes.
+  */
+  public function highlightRemoveAll():void {
+	  if (vis && vis.data != null) {
+		  vis.data.nodes.visit(highlightRemove);
+	  }
+  }
+  
+  /**
+  * Remove highlighting effect from a node.
+  */
+  public function highlightRemove(ns:NodeSprite):void 
+  {
+	  if (ns) {
+		  if (ns.props.hasOwnProperty(FILTERS_PROP)) {
+			  ns.filters = ns.props[FILTERS_PROP];
+			  delete ns.props[FILTERS_PROP];
+		  } else {
+			  if (ns.filters && ns.filters.length > 0) {
+				  ns.filters = [];
+			  }
+		  }
+	  }
+  }
+  
+  private var _highlightLocked:Boolean = false;
+  
+  /**
+  * Lock the currently highlighted node. Highlights will not be
+  * applied to cells on mouseover and the currently highlighted
+  * node will remain highlighted.
+  */
+  public function set highlightLocked(v:Boolean):void {
+	  if (v != _highlightLocked)
+	  {
+		 if (!v) 
+		 {
+			 highlightRemoveAll();
+		 }	  
+		 _highlightLocked = v;
+	  }
+  }
+
+  public function get highlightLocked():Boolean {
+	  return _highlightLocked;
+  }
+  
+
+  /**
    * @inheritDoc
    */
   override protected function onMouseOut(event:MouseEvent):void
   {
-    super.onMouseOut(event);
-
-    const ns:NodeSprite = event.target as NodeSprite;
-    if (ns) {
-      if (ns.props.hasOwnProperty(FILTERS_PROP)) {
-        ns.filters = ns.props[FILTERS_PROP];
-        delete ns.props[FILTERS_PROP];
-      } else {
-        if (ns.filters && ns.filters.length > 0) {
-          ns.filters = [];
-        }
-      }
-    }
+	  super.onMouseOut(event);
+	  
+	  const ns:NodeSprite = event.target as NodeSprite;
+	  if (!highlightLocked) highlightRemove(ns);
   }
-
-
+  
+  
   /**
    * @inheritDoc
    */
@@ -1334,13 +1391,7 @@ public class TreeMapControl extends FlareControlBase {
 
     const ns:NodeSprite = event.target as NodeSprite;
     if (ns !== null && ns.childDegree == 0 && highlightRollOver) {
-      if (ns.filters && ns.filters.length > 0) {
-        ns.props[FILTERS_PROP] = ns.filters;
-        ns.filters.push(brightnessFilter);
-        ns.filters = ns.filters;
-      } else {
-        ns.filters = [brightnessFilter];
-      }
+		if (!highlightLocked) highlightAdd(ns);
     }
   }
 
