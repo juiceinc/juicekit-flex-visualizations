@@ -34,6 +34,8 @@ package org.juicekit.controls {
 	
 	import org.juicekit.animate.TransitionEvent;
 	import org.juicekit.events.DataMouseEvent;
+	import org.juicekit.interfaces.IPredicate;
+	import org.juicekit.util.Filter;
 	import org.juicekit.util.Property;
 	
 	import spark.components.Button;
@@ -210,6 +212,39 @@ package org.juicekit.controls {
 		}
 		
 		
+		public function zoomToTop():void 
+		{
+			if (pathNodes && pathNodes.length) 
+			{
+				zoomToTargetNode(pathNodes[0]);
+				beginTransition();
+			}
+		}
+		
+		public function zoomToNodeMatchingCondition(filter:*):void {
+			if (tree && tree.vis && tree.vis.data) 
+			{
+				var f:Function = Filter.$(filter);
+				
+				// If the data root already matches the condition.
+				if (f(tree.dataRoot)) 
+				{
+					return;
+				}
+					
+				for each (var ns:NodeSprite in tree.vis.data.nodes)
+				{
+					if (f(ns))
+					{
+						gotoNode(ns);
+						beginTransition();
+						return;
+					}
+				}
+				
+			}
+		}
+		
 		/**
 		 * Provide transition effects for zooming into and out of
 		 * the TreeMapControl.
@@ -239,7 +274,7 @@ package org.juicekit.controls {
 		 * Called with the rootNode whenever data is modified and
 		 * is called with the clicked node when treemap is clicked.
 		 */
-		private function gotoNode(node:NodeSprite):void
+		public function gotoNode(node:NodeSprite):void
 		{
 			const targetDepth:uint = breadcrumbs.length + 1;
 			const targetNode:NodeSprite = getParentNode(node, targetDepth);
