@@ -140,7 +140,7 @@ public class Encoder extends Operator
    * @param filter a filter function controlling which items are encoded
    */
   public function Encoder(source:String = null, target:String = null,
-                          group:String = Data.NODES, filter:* = null)
+                          group:String = "nodes", filter:* = null)
   {
     _binding = new ScaleBinding();
     _binding.property = source;
