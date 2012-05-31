@@ -431,7 +431,12 @@ public class GraphUtil {
    * @param toClass a class to cast all tree data items to
    * @returns a Flare Tree structure suitable for assigning to TreeMapControl.data
    */
-  public static function treeMap(dataArray:Array, levels:Array, metrics:Array, rowFilter:Function = null, matchTree:Tree = null, toClass:Class=null):Tree
+  public static function treeMap(dataArray:Array, 
+								 levels:Array, 
+								 metrics:Array, 
+								 rowFilter:Function=null, 
+								 matchTree:Tree=null, 
+								 toClass:Class=null):Tree
   {
     var c:NodeSprite;
     var i:int;
@@ -480,6 +485,7 @@ public class GraphUtil {
     if (result && result.length > 0) {
       rootNode.data = result[0];
       rootNode.data['name'] = 'All';
+	  rootNode.data['nameField'] = 'All';
     }
 
     // Perform a discrete summarization for each level of the tree.
@@ -488,7 +494,7 @@ public class GraphUtil {
     for (i = 0; i < levels.length; i++) {
       var query:Query;
 
-      query = select.apply(null, levels.slice(0, i + 1).concat(metrics));
+      query = select.apply(null, levels.slice(0, i + 1).concat(metrics).concat({nameField: _(levels[i])}));
       query = query.groupby.apply(null, levels.slice(0, i + 1));
       if (rowFilter != null) {
         query = query.where(rowFilter)
@@ -507,11 +513,7 @@ public class GraphUtil {
       tree.nodes.visit(function(n:DataSprite):void
       {
         if (n.props[TREENODE_NOT_VISITED] != null && n.props[TREENODE_NOT_VISITED]) {
-          tree.removeNode(n
-                  as
-                  NodeSprite
-                  )
-                  ;
+          tree.removeNode(n as NodeSprite);
         }
       }, null, true);
     }
