@@ -146,8 +146,8 @@ public class ColorPalette extends Palette implements IPalette {
    */
   public var nameCache:Object = {};
   
-  public static var dimCache:Object = {}; 
-  public static var dimColorCache:Object = {}; 
+  public static var DIM_CACHE:Object = {}; 
+  public static var DIM_COLOR_CACHE:Object = {}; 
 
   private const COLORS_CHANGED:String = 'colorsChanged';
 
@@ -341,6 +341,34 @@ public class ColorPalette extends Palette implements IPalette {
     else {
       return _values[idx % _values.length];
     }
+  }
+  
+  /**
+  * Loads the color caches with preset values.
+  * 
+  * If colors is null, resets the color caches. 
+  */
+  public static function loadDimensionColors(colors:Object=null):void {
+	  // Reset the caches
+	  ColorPalette.DIM_CACHE = {};
+	  ColorPalette.DIM_COLOR_CACHE = {};
+	  
+	  if (colors === null) return;
+	  
+	  // Load the forward and reverse color caches.
+	  for (var dim:String in colors) {
+		  var values:Object = colors[dim];
+		  if (!ColorPalette.DIM_CACHE.hasOwnProperty(dim)) {
+			  ColorPalette.DIM_CACHE[dim] = {};
+			  ColorPalette.DIM_COLOR_CACHE[dim] = {};
+		  }
+		  for (var val:String in values) {
+			  var clr:uint = values[val];
+			  ColorPalette.DIM_CACHE[dim][val] = clr;
+			  ColorPalette.DIM_COLOR_CACHE[clr.toString()] = val;
+		  }
+	  }
+  }
   
   /**
    * Retrieves a color index by storing persistent colors for a dimension
@@ -361,14 +389,14 @@ public class ColorPalette extends Palette implements IPalette {
 		
 	if (dimName !== '' && dimValue !== '') {
       // get the cached value
-	  if (ColorPalette.dimCache.hasOwnProperty(dimName)) {
-		  var dim:Object = ColorPalette.dimCache[dimName];
+	  if (ColorPalette.DIM_CACHE.hasOwnProperty(dimName)) {
+		  var dim:Object = ColorPalette.DIM_CACHE[dimName];
 		  if (dim.hasOwnProperty(dimValue)) {
 			  return dim[dimValue];
 		  }
 	  } else {
-		  ColorPalette.dimCache[dimName] = {};
-		  ColorPalette.dimColorCache[dimName] = {};
+		  ColorPalette.DIM_CACHE[dimName] = {};
+		  ColorPalette.DIM_COLOR_CACHE[dimName] = {};
 	  }
 	  
 	  if (_values == null || _values.length == 0 || idx < 0) {
@@ -378,7 +406,7 @@ public class ColorPalette extends Palette implements IPalette {
 		  while (true) {
 			  result = _values[idx % _values.length];
 			  // If the color hasn't already been used in this dimension, then use it.
-			  if (!ColorPalette.dimColorCache[dimName].hasOwnProperty(result.toString())) {
+			  if (!ColorPalette.DIM_COLOR_CACHE[dimName].hasOwnProperty(result.toString())) {
 			  	break;
 			  }
 			  idx += 1;
@@ -389,8 +417,8 @@ public class ColorPalette extends Palette implements IPalette {
 		  }
 	  }
 	  
-	  ColorPalette.dimCache[dimName][dimValue] = result;
-	  ColorPalette.dimColorCache[dimName][result.toString()] = dimValue;
+	  ColorPalette.DIM_CACHE[dimName][dimValue] = result;
+	  ColorPalette.DIM_COLOR_CACHE[dimName][result.toString()] = dimValue;
 	  
 	  return result;
 	}
@@ -601,7 +629,11 @@ public class ColorPalette extends Palette implements IPalette {
       'gist_ncar': [gist_ncar,40],
       'gist_rainbow': [gist_rainbow,40],
       'gist_stern': [gist_stern,40],
-      'google': googleColors
+      'google': googleColors,
+	  'traditional': juiceTraditional,
+	  'bold': juiceBold,
+	  'modern': juiceModern,
+	  'natural': juiceNatural
     };
     if (!lookup.hasOwnProperty(name)) throw Error('Invalid categorical palette name: ' + name);
     if (lookup[name] is Function) return lookup[name]();
@@ -2091,6 +2123,48 @@ public class ColorPalette extends Palette implements IPalette {
   {
     return new ColorPalette([0x4684ee, 0xdc3912, 0xff9900, 0x008000, 0x4942cc, 0x111111]);
   }
+  
+  /**
+   * A color palette containing eleven colors used by Juice for a 
+   * traditional color scheme.
+   */
+  private static function juiceTraditional():ColorPalette
+  {
+	  return new ColorPalette([0x2083c4, 0xca383f, 0x39b54a, 0xf7931e, 0x662d91,
+		  0xed1e79, 0x1ca2dd, 0x9ff11e, 0xff3020, 0xfcee21, 0xa9a9a9]);
+  }
+  
+  /**
+   * A color palette containing eleven colors used by Juice for a 
+   * bold color scheme.
+   */
+  private static function juiceBold():ColorPalette
+  {
+	  return new ColorPalette([0x536286, 0xf01c21, 0x7dc24b, 0x3acbb8, 0x5442d3,
+		  0xf58b4c, 0xb9e231, 0xff5760, 0xae307e, 0xefd63f, 0xa9a9a9]);
+  }
+  
+  /**
+   * A color palette containing eleven colors used by Juice for a 
+   * modern color scheme.
+   */
+  private static function juiceModern():ColorPalette
+  {
+	  return new ColorPalette([0x009eff, 0xff3a95, 0x8ce400, 0x494949, 0xe6561c,
+		  0x0036a9, 0xff1100, 0x30b110, 0x8800a9, 0xffe100, 0xa6abb1]);
+  }
+  
+  /**
+   * A color palette containing eleven colors used by Juice for a 
+   * natural color scheme.
+   */
+  private static function juiceNatural():ColorPalette
+  {
+	  return new ColorPalette([0x0062a7, 0x608b35, 0x8c3551, 0xbc0021, 0x5d4b21,
+		  0x159da9, 0x939e3e, 0xc6388e, 0xcd5819, 0xdebd3f, 0xa4a299]);
+  }
+  
+
 
 
   /**
