@@ -145,6 +145,9 @@ public class ColorPalette extends Palette implements IPalette {
    * An object containing arrays
    */
   public var nameCache:Object = {};
+  
+  public static var dimCache:Object = {}; 
+  public static var dimColorCache:Object = {}; 
 
   private const COLORS_CHANGED:String = 'colorsChanged';
 
@@ -338,6 +341,68 @@ public class ColorPalette extends Palette implements IPalette {
     else {
       return _values[idx % _values.length];
     }
+  
+  /**
+   * Retrieves a color index by storing persistent colors for a dimension
+   * name and value combination. If the dimension name/value has been
+   * seen, return the cached result
+   * @param dimName The dimension name, e.g. "state"
+   * @param dimValue The dimension value, e.g. "Tennessee"
+   * @param idx an optional integer index. The actual index value used is
+   *  the modulo of the input index by the length of the palette.
+   * @return the color in the palette at the given index, returning
+   * the cached result returned for this dimension name/value previously
+   * if it exists
+   */
+  public function getColorByDimension(dimName:String, dimValue:String, idx:int=0):uint
+  {
+	var origIdx:int = idx;
+	var result:uint;
+		
+	if (dimName !== '' && dimValue !== '') {
+      // get the cached value
+	  if (ColorPalette.dimCache.hasOwnProperty(dimName)) {
+		  var dim:Object = ColorPalette.dimCache[dimName];
+		  if (dim.hasOwnProperty(dimValue)) {
+			  return dim[dimValue];
+		  }
+	  } else {
+		  ColorPalette.dimCache[dimName] = {};
+		  ColorPalette.dimColorCache[dimName] = {};
+	  }
+	  
+	  if (_values == null || _values.length == 0 || idx < 0) {
+		  result = 0;
+	  }
+	  else {
+		  while (true) {
+			  result = _values[idx % _values.length];
+			  // If the color hasn't already been used in this dimension, then use it.
+			  if (!ColorPalette.dimColorCache[dimName].hasOwnProperty(result.toString())) {
+			  	break;
+			  }
+			  idx += 1;
+			  if ((idx % _values.length) == (origIdx % _values.length)) {
+				  // If we've checked all values and didn't find a unique result
+				  break;
+			  }
+		  }
+	  }
+	  
+	  ColorPalette.dimCache[dimName][dimValue] = result;
+	  ColorPalette.dimColorCache[dimName][result.toString()] = dimValue;
+	  
+	  return result;
+	}
+	  
+	if (_values == null || _values.length == 0 || idx < 0) {
+		result = 0;
+	}
+	else {
+		result = _values[idx % _values.length];
+	}
+	
+	return result;
   }
 
   /**
