@@ -1,7 +1,7 @@
 package org.juicekit.scale
 {
-	import org.juicekit.util.Strings;
 	import org.juicekit.util.Maths;
+	import org.juicekit.util.Strings;
 
 	/**
 	 * Scale that spaces values linearly along the scale range. This is the
@@ -38,6 +38,14 @@ package org.juicekit.scale
 		
 		public function setMidpoint(v:Number=0):void {
 			_smid = Maths.clampValue(v, _smin, _smax);
+		}
+		
+		public function set midpoint(v:Number):void {
+			setMidpoint(v);
+		}
+		
+		public function get midpoint():Number {
+			return _smid;
 		}
 
 		/** @inheritDoc */

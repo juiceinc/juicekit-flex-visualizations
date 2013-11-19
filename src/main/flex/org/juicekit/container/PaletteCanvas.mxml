@@ -27,8 +27,8 @@
 
   <mx:Script>
     <![CDATA[
-    import org.juicekit.util.palette.ColorPalette;
-    import org.juicekit.util.Colors;
+		import org.juicekit.util.Colors;
+		import org.juicekit.util.palette.ColorPalette;
 
     /**
      * A reference to the created ColorPalette
@@ -128,6 +128,25 @@
     [Bindable]
     public var fgColor:uint = 0xffffff;
 
+	
+	private var _show:String = 'all';
+	
+	/**
+	 * Show only a portion of the palette
+	 */
+	[Inspectable(type=String, enumeration='all,start,end')]
+	public function set show_only(v:String):void {
+		if (v == 'all' || v == 'start' || v == 'end') {
+			_show = v;
+		} else {
+			_show = 'all';
+		}
+	}
+	
+	public function get show_only():String {
+		return _show;
+	}
+		
 
     /**
      * @inheritDoc
@@ -137,13 +156,22 @@
       super.updateDisplayList(unscaledWidth, unscaledHeight);
 
       fgColor = Colors.whiteOrBlack(colorPalette.getColorByIndexFromAC(0));
-      const dir:String = direction;
-      const len:int = colorPalette.length;
+
+	  var vals:Array = colorPalette.values;
+	  if (_show == 'start') {
+		  vals = vals.slice(0, int(vals.length/2));		  
+	  }
+	  if (_show == 'end') {
+		  vals = vals.slice(int(vals.length/2));		  
+	  }
+	  
+	  const dir:String = direction;
+      const len:int = vals.length;
       const blockW:Number = unscaledWidth / len;
       const blockH:Number = unscaledHeight / len;
 
       var idx:int = 0;
-      for each (var c:uint in colorPalette.values) {
+      for each (var c:uint in vals) {
         graphics.beginFill(0xffffff & c, 1);
         if (dir == 'vertical') {
           graphics.drawRect(0, idx * blockH, unscaledWidth, blockH);
