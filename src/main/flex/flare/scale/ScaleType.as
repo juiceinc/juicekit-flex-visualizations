@@ -48,6 +48,8 @@ public class ScaleType
   public static const PERSISTENT_ORDINAL:String = "persistent_ordinal";
   /** Constant indicating a linear numeric scale. */
   public static const LINEAR:String = "linear";
+  /** Constant indicating a linear midpoint numeric scale. */
+  public static const LINEAR_MIDPOINT:String = "linear_midpoint";
   /** Constant indicating a linear numeric scale with the min and max at the 10th and 90th percentiles. */
   public static const LINEAR_PERCENTILE10:String = "linear_percentile10";
   /** Constant indicating a root-transformed numeric scale. */
@@ -84,7 +86,7 @@ public class ScaleType
    */
   public static function isQuantitative(type:String):Boolean
   {
-    return type == LINEAR || type == LINEAR_PERCENTILE10 || type == ROOT || type == LOG;
+    return type == LINEAR || type == LINEAR_MIDPOINT || type == LINEAR_PERCENTILE10 || type == ROOT || type == LOG;
   }
 
 } // end of class ScaleType
